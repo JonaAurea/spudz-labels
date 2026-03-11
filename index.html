@@ -8,77 +8,123 @@
 <style>
 :root {
   --mocha-50: #fdf8f6; --mocha-100: #f2e8e5; --mocha-200: #eaddd7;
+  --mocha-300: #d6c4b7; --mocha-400: #b6946b;
   --mocha-600: #6f4e37; --mocha-700: #5c3d2e; --mocha-800: #422a1f;
-  --peach: #ff9966; --aqua: #2dd4bf;
+  --peach: #ff9966; --peach-light: #fff3ec; --aqua: #2dd4bf; --spark: #ef4444;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--mocha-50); color: var(--mocha-800); }
 
 .header { background: linear-gradient(135deg, var(--mocha-700), var(--mocha-600)); color: white; padding: 20px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .header h1 { font-size: 1.5rem; }
-.header .badge { background: var(--peach); color: var(--mocha-800); padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; }
+.header .badge { padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; }
+.badge-peach { background: var(--peach); color: var(--mocha-800); }
+.badge-aqua { background: var(--aqua); color: var(--mocha-800); }
 
-.toolbar { background: white; border-bottom: 1px solid var(--mocha-200); padding: 12px 24px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; }
+.toolbar { background: white; border-bottom: 1px solid var(--mocha-200); padding: 12px 24px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
 .toolbar input[type="text"] { padding: 8px 14px; border: 1px solid var(--mocha-200); border-radius: 8px; font-size: 0.95rem; width: 260px; }
 .toolbar select { padding: 8px 14px; border: 1px solid var(--mocha-200); border-radius: 8px; font-size: 0.95rem; background: white; }
 .toolbar .spacer { flex: 1; }
 .btn { padding: 8px 18px; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
 .btn-primary { background: var(--mocha-600); color: white; }
 .btn-primary:hover { background: var(--mocha-700); }
-.btn-print { background: var(--peach); color: var(--mocha-800); }
+.btn-print { background: var(--peach); color: var(--mocha-800); font-size: 1rem; padding: 10px 24px; }
 .btn-print:hover { background: #ff8855; }
 .btn-outline { background: transparent; border: 1px solid var(--mocha-200); color: var(--mocha-600); }
 .btn-outline:hover { background: var(--mocha-100); }
+.btn-danger { background: var(--spark); color: white; }
+.btn-danger:hover { background: #dc2626; }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Sheet info bar */
+.sheet-bar { background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 14px 24px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid #fbbf24; }
+.sheet-bar .sheet-info { font-size: 1rem; font-weight: 700; color: var(--mocha-800); }
+.sheet-bar .sheet-detail { font-size: 0.85rem; color: var(--mocha-600); }
+.sheet-bar .sheet-icon { font-size: 1.5rem; }
 
 .info-bar { background: var(--mocha-100); padding: 8px 24px; font-size: 0.85rem; color: var(--mocha-600); display: flex; gap: 20px; flex-wrap: wrap; }
 .info-bar strong { color: var(--mocha-800); }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; padding: 20px 24px; }
-.card { background: white; border: 2px solid transparent; border-radius: 12px; padding: 14px; cursor: pointer; transition: all 0.15s; position: relative; }
-.card:hover { border-color: var(--mocha-200); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-.card.selected { border-color: var(--peach); background: #fff8f5; }
-.card .check { position: absolute; top: 10px; right: 10px; width: 22px; height: 22px; border: 2px solid var(--mocha-200); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-.card.selected .check { background: var(--peach); border-color: var(--peach); color: white; }
-.card .qr-box { width: 80px; height: 80px; margin: 0 auto 10px; }
-.card .qr-box canvas, .card .qr-box img { width: 80px !important; height: 80px !important; }
-.card .prod-name { font-weight: 600; font-size: 0.85rem; line-height: 1.3; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-.card .prod-info { font-size: 0.75rem; color: var(--mocha-600); }
-.card .prod-cat { font-size: 0.7rem; color: var(--peach); font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }
+/* Product grid */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; padding: 20px 24px; }
 
-/* PRINT STYLES — AVERY L7121-25: 45x45mm, 4 cols × 5 rows */
+/* Order-style card */
+.card { background: white; border: 2px solid var(--mocha-200); border-radius: 12px; padding: 14px; transition: all 0.15s; display: flex; gap: 12px; align-items: center; }
+.card:hover { border-color: var(--mocha-300); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.card.has-qty { border-color: var(--peach); background: var(--peach-light); }
+.card .qr-box { width: 64px; height: 64px; flex-shrink: 0; }
+.card .qr-box canvas, .card .qr-box img { width: 64px !important; height: 64px !important; }
+.card .card-body { flex: 1; min-width: 0; }
+.card .prod-cat { font-size: 0.65rem; color: var(--peach); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.card .prod-name { font-weight: 600; font-size: 0.9rem; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .prod-info { font-size: 0.75rem; color: var(--mocha-600); }
+
+/* Label unit indicator (printed on label) */
+.lbl-units { font-size: 5pt; margin-top: 0.5mm; display: flex; justify-content: center; gap: 2mm; }
+.lbl-units span { padding: 0.3mm 1mm; border: 0.3pt solid #999; border-radius: 1mm; }
+
+/* Quantity controls — order style */
+.qty-controls { display: flex; align-items: center; gap: 0; flex-shrink: 0; }
+.qty-btn { width: 36px; height: 36px; border: 2px solid var(--mocha-200); background: white; font-size: 1.2rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.1s; color: var(--mocha-600); }
+.qty-btn:hover { background: var(--mocha-100); border-color: var(--mocha-400); }
+.qty-btn:active { background: var(--mocha-200); }
+.qty-btn.minus { border-radius: 8px 0 0 8px; }
+.qty-btn.plus { border-radius: 0 8px 8px 0; }
+.qty-input { width: 44px; height: 36px; border: 2px solid var(--mocha-200); border-left: none; border-right: none; text-align: center; font-size: 1rem; font-weight: 700; color: var(--mocha-800); background: white; -moz-appearance: textfield; }
+.qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.card.has-qty .qty-btn { border-color: var(--peach); }
+.card.has-qty .qty-input { border-color: var(--peach); color: var(--peach); background: white; }
+.card.has-qty .qty-btn.minus { background: #fff0e6; }
+.card.has-qty .qty-btn.plus { background: var(--peach); color: white; }
+
+/* Custom product form */
+.custom-form { background: white; border: 2px dashed var(--mocha-300); border-radius: 12px; padding: 16px; margin: 0 24px 12px; }
+.custom-form h3 { font-size: 0.95rem; margin-bottom: 10px; color: var(--mocha-600); }
+.custom-form .form-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+.custom-form input { padding: 8px 12px; border: 1px solid var(--mocha-200); border-radius: 8px; font-size: 0.9rem; }
+.custom-form input.w-lg { width: 240px; }
+.custom-form input.w-sm { width: 120px; }
+.custom-form input.w-xs { width: 80px; }
+
+/* Format toggle */
+.format-toggle { display: flex; gap: 2px; background: var(--mocha-100); border-radius: 8px; padding: 2px; }
+.format-toggle button { padding: 6px 14px; border: none; border-radius: 6px; background: transparent; font-size: 0.8rem; cursor: pointer; font-weight: 500; }
+.format-toggle button.active { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: 600; }
+
+.empty-state { text-align: center; padding: 60px 24px; color: var(--mocha-600); }
+.empty-state h2 { margin-bottom: 8px; }
+
+/* Warenkorb / order summary */
+.order-summary { background: white; border-top: 2px solid var(--peach); padding: 16px 24px; position: sticky; bottom: 0; z-index: 100; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); display: none; }
+.order-summary .summary-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.order-summary .summary-text { flex: 1; font-size: 0.95rem; }
+.order-summary .summary-text strong { font-size: 1.1rem; }
+
+/* PRINT STYLES */
 @media print {
   body * { visibility: hidden; }
   #printArea, #printArea * { visibility: visible; }
   #printArea { position: absolute; top: 0; left: 0; width: 210mm; }
-
   @page { size: A4 portrait; margin: 0; }
-
   .print-page { width: 210mm; height: 297mm; padding: 10.5mm 0 0 7.75mm; page-break-after: always; display: flex; flex-wrap: wrap; align-content: flex-start; }
   .print-page:last-child { page-break-after: auto; }
-
   .print-label { width: 45mm; height: 55mm; margin: 0 3.5mm 2.5mm 0; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2mm; }
   .print-label .qr-print { width: 38mm; height: 38mm; }
   .print-label .qr-print canvas, .print-label .qr-print img { width: 38mm !important; height: 38mm !important; }
   .print-label .lbl-name { font-size: 7pt; font-weight: 700; line-height: 1.2; max-height: 3.5em; overflow: hidden; margin-top: 1mm; }
   .print-label .lbl-info { font-size: 5.5pt; color: #666; margin-top: 0.5mm; }
 }
-
-.empty-state { text-align: center; padding: 60px 24px; color: var(--mocha-600); }
-.empty-state h2 { margin-bottom: 8px; }
-
-/* Format selector */
-.format-toggle { display: flex; gap: 2px; background: var(--mocha-100); border-radius: 8px; padding: 2px; }
-.format-toggle button { padding: 6px 14px; border: none; border-radius: 6px; background: transparent; font-size: 0.8rem; cursor: pointer; font-weight: 500; }
-.format-toggle button.active { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: 600; }
+/* HERMA override */
+body.fmt-herma .print-label { width: 40mm; height: 46mm; margin: 0 3mm 2mm 0; }
+body.fmt-herma .print-page { padding: 8mm 0 0 5mm; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>🥔 SPUDZ QR-Label Drucker</h1>
-  <span class="badge" id="countBadge">0 ausgewählt</span>
-  <span class="badge" style="background:var(--aqua)">AVERY L7121-25</span>
+  <h1>🥔 SPUDZ QR-Label Bestellung</h1>
+  <span class="badge badge-peach" id="countBadge">0 Labels</span>
+  <span class="badge badge-aqua" id="formatBadge">AVERY L7121-25</span>
 </div>
 
 <div class="toolbar">
@@ -91,21 +137,68 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--mocha-5
     <button onclick="setFormat('herma',this)">HERMA 40mm</button>
   </div>
   <div class="spacer"></div>
-  <button class="btn btn-outline" onclick="selectAll()">✅ Alle</button>
-  <button class="btn btn-outline" onclick="selectNone()">❌ Keine</button>
-  <button class="btn btn-outline" onclick="selectCategory()">📁 Kategorie</button>
-  <button class="btn btn-print" onclick="printLabels()" id="btnPrint" disabled>🖨️ Drucken</button>
+  <button class="btn btn-outline" onclick="setAllQty(1)">✅ Alle 1×</button>
+  <button class="btn btn-outline" onclick="setAllQty(0)">❌ Reset</button>
+  <button class="btn btn-outline" onclick="setCategoryQty()">📁 Kategorie 1×</button>
+  <button class="btn btn-outline" onclick="toggleCustomForm()">➕ Eigenes Produkt</button>
 </div>
 
-<div class="info-bar" id="infoBar">
+<!-- Sheet calculator -->
+<div class="sheet-bar" id="sheetBar" style="display:none">
+  <span class="sheet-icon">🖨️</span>
+  <div>
+    <div class="sheet-info"><span id="sheetCount">0</span> Blätter in den Drucker legen</div>
+    <div class="sheet-detail"><span id="totalLabels">0</span> Labels auf <span id="sheetPages">0</span> Seiten — <span id="fmtDetail">AVERY: 20 Labels/Seite</span></div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn btn-print" onclick="printLabels()" id="btnPrint">🖨️ Drucken</button>
+</div>
+
+<div class="info-bar">
   <span><strong id="totalCount">0</strong> Produkte</span>
-  <span><strong id="selectedCount">0</strong> ausgewählt</span>
-  <span><strong id="pageCount">0</strong> Seiten (AVERY: 20/Seite)</span>
+  <span><strong id="selectedCount">0</strong> verschiedene ausgewählt</span>
+  <span><strong id="labelCount">0</strong> Labels gesamt</span>
   <span>Format: <strong id="formatInfo">AVERY L7121-25 (45×45mm, 4×5)</strong></span>
 </div>
 
+<!-- Custom product form -->
+<div id="customForm" style="display:none" class="custom-form">
+  <h3>➕ Eigenes Produkt hinzufügen</h3>
+  <div class="form-row">
+    <div>
+      <label style="font-size:0.75rem;color:var(--mocha-600)">Produktname *</label><br>
+      <input type="text" id="customName" class="w-lg" placeholder="z.B. Spezial-Soße XL">
+    </div>
+    <div>
+      <label style="font-size:0.75rem;color:var(--mocha-600)">Artikelnummer</label><br>
+      <input type="text" id="customNum" class="w-sm" placeholder="z.B. CUSTOM-01">
+    </div>
+    <div>
+      <label style="font-size:0.75rem;color:var(--mocha-600)">Einheit</label><br>
+      <input type="text" id="customUnit" class="w-sm" placeholder="z.B. 1 kg">
+    </div>
+    <div>
+      <label style="font-size:0.75rem;color:var(--mocha-600)">Anzahl</label><br>
+      <input type="number" id="customQty" class="w-xs" value="1" min="1">
+    </div>
+    <button class="btn btn-primary" onclick="addCustomProduct()">Hinzufügen</button>
+  </div>
+</div>
+
 <div class="grid" id="productGrid"></div>
-<div class="empty-state" id="emptyState" style="display:none"><h2>Keine Produkte gefunden</h2><p>Versuche einen anderen Suchbegriff.</p></div>
+<div class="empty-state" id="emptyState" style="display:none"><h2>Keine Produkte gefunden</h2><p>Versuche einen anderen Suchbegriff oder füge ein eigenes Produkt hinzu.</p></div>
+
+<!-- Order summary (sticky bottom bar) -->
+<div class="order-summary" id="orderSummary">
+  <div class="summary-row">
+    <div class="summary-text">
+      🛒 <strong id="summaryLabels">0</strong> Labels von <strong id="summaryProducts">0</strong> Produkten
+      → <strong id="summarySheets">0</strong> Blätter drucken
+    </div>
+    <button class="btn btn-danger" onclick="setAllQty(0)" style="font-size:0.8rem;padding:6px 14px">🗑️ Alles leeren</button>
+    <button class="btn btn-print" onclick="printLabels()">🖨️ Drucken</button>
+  </div>
+</div>
 
 <div id="printArea" style="display:none"></div>
 
@@ -113,12 +206,16 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--mocha-5
 const PRODUCTS = [{"n":"007508.5","name":"MC Wraps 30cm (18 pcs)","cat":"Bakery","unit":"18 pcs"},{"n":"534403.1","name":"ARO Instant Coffee Classic","cat":"Beverages - Coffee","unit":"200 g"},{"n":"885844.1","name":"Jacobs Capsules Lungo (20 pcs)","cat":"Beverages - Coffee","unit":"20 pcs"},{"n":"921120.0","name":"Nescafe Gold Instant Coffee","cat":"Beverages - Coffee","unit":"200 g"},{"n":"598702.9","name":"Monster Energy","cat":"Beverages - Energy Drinks","unit":"0.5 L"},{"n":"337790.0","name":"Powerade Mountain Blast","cat":"Beverages - Energy Drinks","unit":"0.5 L"},{"n":"065013.5","name":"ARO Apple Juice","cat":"Beverages - Juice","unit":"1.5 L"},{"n":"065000.2","name":"ARO Orange Juice","cat":"Beverages - Juice","unit":"1.5 L"},{"n":"014376.8","name":"Capri Sun Cherry","cat":"Beverages - Juice","unit":"0.2 L"},{"n":"302267.0","name":"Capri Sun Fairy Drink","cat":"Beverages - Juice","unit":"0.2 L"},{"n":"680939.6","name":"Capri Sun Monster Alarm","cat":"Beverages - Juice","unit":"0.2 L"},{"n":"045921.4","name":"Capri Sun Multivitamin","cat":"Beverages - Juice","unit":"0.2 L"},{"n":"018354.1","name":"Capri Sun Orange","cat":"Beverages - Juice","unit":"0.2 L"},{"n":"549304.4","name":"Happy Day Pineapple Juice","cat":"Beverages - Juice","unit":"1 L"},{"n":"023366.0","name":"Rauch Culinary Lemon Juice","cat":"Beverages - Juice","unit":"1 L"},{"n":"141926.6","name":"Rauch Culinary Lime Juice","cat":"Beverages - Juice","unit":"1 L"},{"n":"701978.9","name":"Wesergold Pineapple Juice","cat":"Beverages - Juice","unit":"1 L"},{"n":"806566.6","name":"Coca-Cola","cat":"Beverages - Soft Drinks","unit":"0.5 L"},{"n":"806563.3","name":"Coca-Cola Zero","cat":"Beverages - Soft Drinks","unit":"0.5 L"},{"n":"806568.2","name":"Fanta Orange","cat":"Beverages - Soft Drinks","unit":"0.5 L"},{"n":"815238.1","name":"Fanta Zero","cat":"Beverages - Soft Drinks","unit":"0.5 L"},{"n":"806571.6","name":"Lift Apfelschorle","cat":"Beverages - Soft Drinks","unit":"0.5 L"},{"n":"806573.2","name":"Mezzo Mix","cat":"Beverages - Soft Drinks","unit":"0.5 L"},{"n":"131401.0","name":"San Pellegrino Aranciata","cat":"Beverages - Soft Drinks","unit":"0.33 L"},{"n":"131391.0","name":"San Pellegrino Aranciata Rossa","cat":"Beverages - Soft Drinks","unit":"0.33 L"},{"n":"262349.0","name":"San Pellegrino Limonata","cat":"Beverages - Soft Drinks","unit":"0.33 L"},{"n":"806576.5","name":"Sprite","cat":"Beverages - Soft Drinks","unit":"0.5 L"},{"n":"786229.5","name":"Vio Bio Lemonade Lemon","cat":"Beverages - Soft Drinks","unit":"0.5 L"},{"n":"786226.1","name":"Vio Bio Lemonade Orange","cat":"Beverages - Soft Drinks","unit":"0.5 L"},{"n":"914766.1","name":"Fuze Tea Green Tea-Mango","cat":"Beverages - Tea","unit":"0.4 L"},{"n":"518067.4","name":"Fuze Tea Lemongrass","cat":"Beverages - Tea","unit":"0.4 L"},{"n":"994743.3","name":"Fuze Tea Lime-Mint","cat":"Beverages - Tea","unit":"0.4 L"},{"n":"914770.3","name":"Fuze Tea Peach","cat":"Beverages - Tea","unit":"0.4 L"},{"n":"499757.3","name":"Fuze Tea Peach 1.25L","cat":"Beverages - Tea","unit":"1.25 L"},{"n":"914768.7","name":"Fuze Tea Peach-Hibiscus","cat":"Beverages - Tea","unit":"0.4 L"},{"n":"000083.0","name":"Mein T Peach Tea","cat":"Beverages - Tea","unit":"0.5 L"},{"n":"179616.0","name":"Messmer Classic Tea Bags","cat":"Beverages - Tea","unit":"50 bags"},{"n":"001554.0","name":"ARO Still Mineral Water","cat":"Beverages - Water","unit":"0.5 L"},{"n":"362915.1","name":"Vio Medium Mineral Water","cat":"Beverages - Water","unit":"0.5 L"},{"n":"057944.1","name":"Volvic Natural Water","cat":"Beverages - Water","unit":"0.5 L"},{"n":"999","name":"Water 0.5L","cat":"Beverages - Water","unit":"0.5 L"},{"n":"AF-51","name":"Amalthia Kalamata Giants Pitted","cat":"Canned Goods - Olives","unit":"1 tin"},{"n":"AF-276","name":"Grilled Olives Egemar","cat":"Canned Goods - Olives","unit":"1 canister"},{"n":"AF-6","name":"Kallina Olives with Garlic","cat":"Canned Goods - Olives","unit":"10 kg"},{"n":"AF-5","name":"Kallina Olives with Paprika","cat":"Canned Goods - Olives","unit":"10 kg"},{"n":"AF-188","name":"Freshland Florini Peppers","cat":"Canned Goods - Peppers","unit":"1 can"},{"n":"AF-169","name":"Pepper Drops Red","cat":"Canned Goods - Peppers","unit":"1.2 kg"},{"n":"AF-75","name":"Pepper Drops Yellow","cat":"Canned Goods - Peppers","unit":"1.2 kg"},{"n":"AF-355","name":"Whole Chili 1kg","cat":"Canned Goods - Peppers","unit":"1 kg"},{"n":"978618.7","name":"ARO Black Olives Pitted","cat":"Canned Goods - Pickles & Olives","unit":"4.25 L"},{"n":"894326.8","name":"ARO Black Olives Sliced (DS)","cat":"Canned Goods - Pickles & Olives","unit":"4.25 L"},{"n":"071519.3","name":"ARO Black Olives Sliced (KT)","cat":"Canned Goods - Pickles & Olives","unit":"4.25 L"},{"n":"071629.0","name":"Alimpex Jalapeño Slices","cat":"Canned Goods - Pickles & Olives","unit":"2900 g"},{"n":"901271.7","name":"MC Pickled Gherkins 55/60","cat":"Canned Goods - Pickles & Olives","unit":"10.2 L"},{"n":"785515.8","name":"Menzi Chili Con Carne","cat":"Canned Goods - Ready Meals","unit":"4200 ml"},{"n":"204568.0","name":"Flying Goose Chili Sauce (Bottle)","cat":"Canned Goods - Sauces","unit":"435 ml"},{"n":"983500.0","name":"Flying Goose Chili Sauce (Case)","cat":"Canned Goods - Sauces","unit":"435 ml"},{"n":"346296.7","name":"La Costeña Mexican Salsa","cat":"Canned Goods - Sauces","unit":"2.95 L"},{"n":"901275.8","name":"ARO Beetroot Slices","cat":"Canned Goods - Vegetables","unit":"4250 ml"},{"n":"457258.2","name":"ARO Chickpeas","cat":"Canned Goods - Vegetables","unit":"2650 ml"},{"n":"021025.2","name":"ARO Mushrooms Sliced (DS)","cat":"Canned Goods - Vegetables","unit":"2.65 L"},{"n":"660172.8","name":"ARO Mushrooms Sliced (TY)","cat":"Canned Goods - Vegetables","unit":"2.65 L"},{"n":"847204.5","name":"ARO Red Cabbage","cat":"Canned Goods - Vegetables","unit":"4.25 L"},{"n":"457223.6","name":"ARO Red Kidney Beans","cat":"Canned Goods - Vegetables","unit":"2650 ml"},{"n":"445979.8","name":"ARO Tomato Pepper Strips","cat":"Canned Goods - Vegetables","unit":"4250 ml"},{"n":"AF-157","name":"Artichoke Quarters","cat":"Canned Goods - Vegetables","unit":"1 can"},{"n":"AF-605","name":"Giant Beans in Tomato Oil Palirria","cat":"Canned Goods - Vegetables","unit":"2 kg"},{"n":"927841.7","name":"MC Grilled Aubergine","cat":"Canned Goods - Vegetables","unit":"1.7 L"},{"n":"062042.0","name":"MC Grilled Zucchini","cat":"Canned Goods - Vegetables","unit":"1.7 L"},{"n":"022812.2","name":"MC Sweet Corn","cat":"Canned Goods - Vegetables","unit":"2650 ml"},{"n":"519830.4","name":"ARO Dish Soap","cat":"Cleaning Supplies","unit":"10 L"},{"n":"519244.8","name":"ARO Glass Cleaner Spray","cat":"Cleaning Supplies","unit":"1 L"},{"n":"083385.0","name":"ARO Non-Woven Cloths","cat":"Cleaning Supplies","unit":"5 pcs"},{"n":"147228.0","name":"ARO Stainless Steel Scourers","cat":"Cleaning Supplies","unit":"6 pcs"},{"n":"807138.0","name":"ARO Toilet Paper 2-ply","cat":"Cleaning Supplies","unit":"24 rolls"},{"n":"846250.0","name":"Bref Degreaser Spray","cat":"Cleaning Supplies","unit":"750 ml"},{"n":"456619.6","name":"Dan Klorix Bleach Regular","cat":"Cleaning Supplies","unit":"5 L"},{"n":"158516.5","name":"Degreaser Spray","cat":"Cleaning Supplies","unit":"1 L"},{"n":"EL-10","name":"Kitchen Paper Roll","cat":"Cleaning Supplies","unit":"1 CTN (12 rolls)"},{"n":"932027.0","name":"Spontex Microfiber Cloths","cat":"Cleaning Supplies","unit":"10 pcs"},{"n":"084985.1","name":"ARO Salad Mayonnaise 50%","cat":"Condiments & Sauces","unit":"10 kg"},{"n":"202559.1","name":"ARO Table Mustard Medium","cat":"Condiments & Sauces","unit":"875 ml"},{"n":"931075.0","name":"ARO Table Vinegar 5%","cat":"Condiments & Sauces","unit":"1 L"},{"n":"095562.5","name":"Appel Worcester Sauce","cat":"Condiments & Sauces","unit":"1000 ml"},{"n":"447991.0","name":"Flying Goose Sriracha Hot Sauce","cat":"Condiments & Sauces","unit":"730 ml"},{"n":"167690.7","name":"Heinz BBQ Sauce","cat":"Condiments & Sauces","unit":"10 L"},{"n":"LI-03","name":"Lions BBQ Sauce","cat":"Condiments & Sauces","unit":"2.27 L"},{"n":"LI-04","name":"Lions Piri Piri Sauce","cat":"Condiments & Sauces","unit":"2.27 L"},{"n":"LI-05","name":"Lions Ranch Sauce","cat":"Condiments & Sauces","unit":"2.27 L"},{"n":"LI-01","name":"Lions Sourcream & Chives Sauce","cat":"Condiments & Sauces","unit":"2.27 L"},{"n":"LI-02","name":"Lions Very Hot Chili Sauce","cat":"Condiments & Sauces","unit":"2.27 L"},{"n":"951517.2","name":"MC Apple Vinegar","cat":"Condiments & Sauces","unit":"500 ml"},{"n":"951488.0","name":"MC Balsamic Vinegar of Modena","cat":"Condiments & Sauces","unit":"1 L"},{"n":"951005.8","name":"MC Chocolate Dessert Sauce","cat":"Condiments & Sauces","unit":"1 kg"},{"n":"536148.0","name":"MC Vegan Salad Mayonnaise","cat":"Condiments & Sauces","unit":"2.5 kg"},{"n":"040769.2","name":"Rioba Salad Mayonnaise 50% Portions","cat":"Condiments & Sauces","unit":"180 × 20ml"},{"n":"038144.2","name":"Rioba Tomato Ketchup Portions","cat":"Condiments & Sauces","unit":"180 × 15ml"},{"n":"86799","name":"Butter Lurpak Salted","cat":"Dairy - Butter","unit":"200 g"},{"n":"978587.0","name":"ARO Shepherd Cheese 45%","cat":"Dairy - Cheese","unit":"2 kg"},{"n":"40170","name":"Cheddar Shredded","cat":"Dairy - Cheese","unit":"1 kg"},{"n":"65324","name":"Mozzarella Shredded","cat":"Dairy - Cheese","unit":"1 kg"},{"n":"20759","name":"White Cheese Cubes Apetina","cat":"Dairy - Cheese","unit":"4 kg"},{"n":"1624","name":"TB Sour Cream 20%","cat":"Dairy - Cream","unit":"5 kg"},{"n":"88518","name":"UHT Milk Regular","cat":"Dairy - Milk","unit":"1 L"},{"n":"918530.0","name":"ARO Greek Yogurt 10%","cat":"Dairy - Yogurt","unit":"5 kg"},{"n":"918736.0","name":"ARO Natural Yogurt 3.5%","cat":"Dairy - Yogurt","unit":"5 kg"},{"n":"21832","name":"Yoghurt Kløver Drained 10%","cat":"Dairy - Yogurt","unit":"5 kg"},{"n":"052217.7","name":"Violife Gouda Style Shredded","cat":"Dairy Alternative","unit":"1 kg"},{"n":"060163.3","name":"Violife Mozzarella Style Shredded","cat":"Dairy Alternative","unit":"1 kg"},{"n":"AF-630","name":"Arfiyato Green Peppers with Cream Cheese","cat":"Deli - Antipasti","unit":"1.3 kg"},{"n":"AF-645","name":"Arfiyato Stuffed Tomato Peppers","cat":"Deli - Antipasti","unit":"1 pc"},{"n":"AF-623","name":"Balsamic Onions","cat":"Deli - Antipasti","unit":"1 can"},{"n":"AF-612","name":"Grilled Aubergine Trays","cat":"Deli - Antipasti","unit":"2.4 kg"},{"n":"AF-323","name":"Grilled Mushrooms","cat":"Deli - Antipasti","unit":"5 L"},{"n":"AF-606","name":"Stuffed Vine Leaves with Rice Palirria","cat":"Deli - Antipasti","unit":"2 kg"},{"n":"55445","name":"Eggs Issue Medium","cat":"Eggs","unit":"1 Case"},{"n":"278900.6","name":"MC Apples Elstar","cat":"Fresh Fruits","unit":"10 kg"},{"n":"278708.3","name":"MC Apples Jonagold","cat":"Fresh Fruits","unit":"10 kg"},{"n":"016968.0","name":"MC Lemons (Large)","cat":"Fresh Fruits","unit":"5 kg"},{"n":"446565.4","name":"MC Lemons (Small)","cat":"Fresh Fruits","unit":"1.5 kg"},{"n":"230390.0","name":"MC Mango Ready to Eat","cat":"Fresh Fruits","unit":"1 pc"},{"n":"271702.3","name":"Oranges","cat":"Fresh Fruits","unit":"3 kg"},{"n":"409327.4","name":"Pineapple","cat":"Fresh Fruits","unit":"1 pc"},{"n":"154793.4","name":"MC Chives","cat":"Fresh Herbs","unit":"200 g"},{"n":"327282.0","name":"MC Dill (1kg)","cat":"Fresh Herbs","unit":"1 kg"},{"n":"234834.0","name":"MC Dill (200g)","cat":"Fresh Herbs","unit":"200 g"},{"n":"244821.5","name":"MC Flat Leaf Parsley","cat":"Fresh Herbs","unit":"300 g"},{"n":"248141.0","name":"MC Flat Leaf Parsley (1kg)","cat":"Fresh Herbs","unit":"1 kg"},{"n":"287266.1","name":"Spring Onions","cat":"Fresh Herbs","unit":"1 bunch"},{"n":"287182.0","name":"Baby Spinach (1kg)","cat":"Fresh Vegetables","unit":"1 kg"},{"n":"287194.5","name":"Baby Spinach (200g)","cat":"Fresh Vegetables","unit":"200 g"},{"n":"289093.7","name":"Beetroot Fresh","cat":"Fresh Vegetables","unit":"1 kg"},{"n":"299102.4","name":"Bell Pepper Mix (ES)","cat":"Fresh Vegetables","unit":"500 g"},{"n":"299368.1","name":"Bell Pepper Mix (NL)","cat":"Fresh Vegetables","unit":"500 g"},{"n":"283546.0","name":"Broccoli","cat":"Fresh Vegetables","unit":"500 g"},{"n":"292135.1","name":"Carrots","cat":"Fresh Vegetables","unit":"10 kg"},{"n":"012018.8","name":"Cucumber (ES)","cat":"Fresh Vegetables","unit":"1 pc"},{"n":"011981.8","name":"Cucumber (NL)","cat":"Fresh Vegetables","unit":"1 pc"},{"n":"049039.1","name":"Head Lettuce","cat":"Fresh Vegetables","unit":"12 pcs"},{"n":"194256.0","name":"Imperfect Cucumbers","cat":"Fresh Vegetables","unit":"10 kg"},{"n":"024645.0","name":"Lollo Rosso Lettuce","cat":"Fresh Vegetables","unit":"9 pcs"},{"n":"031505.1","name":"MC Bio Ginger (Organic)","cat":"Fresh Vegetables","unit":"200 g"},{"n":"292355.5","name":"MC Carrots","cat":"Fresh Vegetables","unit":"10 kg"},{"n":"310725.0","name":"MC Cucumber (ES)","cat":"Fresh Vegetables","unit":"1 pc"},{"n":"025606.5","name":"MC Lollo Bionda Lettuce","cat":"Fresh Vegetables","unit":"9 pcs"},{"n":"525350.0","name":"MC Peeled Garlic","cat":"Fresh Vegetables","unit":"1 kg"},{"n":"281599.1","name":"MC Potatoes","cat":"Fresh Vegetables","unit":"10 kg"},{"n":"368188.9","name":"MC Round Tomatoes","cat":"Fresh Vegetables","unit":"6 kg"},{"n":"186904.0","name":"MC Salad Mix (FR)","cat":"Fresh Vegetables","unit":"9 pcs"},{"n":"240032.3","name":"Organic Beetroot","cat":"Fresh Vegetables","unit":"500 g"},{"n":"494702.4","name":"Pink Garlic","cat":"Fresh Vegetables","unit":"1 kg"},{"n":"615","name":"Potatoes Sack","cat":"Fresh Vegetables","unit":"25 kg"},{"n":"014322.2","name":"Red Onions (Large)","cat":"Fresh Vegetables","unit":"10 kg"},{"n":"014240.6","name":"Red Onions (Small)","cat":"Fresh Vegetables","unit":"10 kg"},{"n":"563886.0","name":"Red Palermo Peppers","cat":"Fresh Vegetables","unit":"500 g"},{"n":"288641.0","name":"Salad Mix (IT)","cat":"Fresh Vegetables","unit":"9 pcs"},{"n":"187612.7","name":"Sweet Potatoes","cat":"Fresh Vegetables","unit":"6 kg"},{"n":"009054.8","name":"Tomatoes","cat":"Fresh Vegetables","unit":"6 kg"},{"n":"008592.0","name":"Vine Tomatoes (NL)","cat":"Fresh Vegetables","unit":"5 kg"},{"n":"704007.4","name":"Bagel Plain (36 pcs)","cat":"Frozen - Bakery","unit":"36 pcs"},{"n":"020610.0","name":"Elviart Pita Flatbread 10x18cm","cat":"Frozen - Bakery","unit":"1 pack"},{"n":"671062.8","name":"Mini Pancake (348 pcs)","cat":"Frozen - Bakery","unit":"348 pcs"},{"n":"784801","name":"Banana Slices Frozen","cat":"Frozen - Fruits","unit":"10 kg"},{"n":"958408.7","name":"MC Avocado Cubes","cat":"Frozen - Fruits","unit":"1 kg"},{"n":"009332.0","name":"MC Avocado Slices Frozen","cat":"Frozen - Fruits","unit":"1 kg"},{"n":"912431.4","name":"MC Blueberries","cat":"Frozen - Fruits","unit":"1 kg"},{"n":"912409.0","name":"MC Mango Cubes","cat":"Frozen - Fruits","unit":"1 kg"},{"n":"912413.2","name":"MC Pineapple Chunks","cat":"Frozen - Fruits","unit":"1 kg"},{"n":"929514.8","name":"MC Raspberries Frozen","cat":"Frozen - Fruits","unit":"2.5 kg"},{"n":"928844.0","name":"MC Strawberries Frozen","cat":"Frozen - Fruits","unit":"2.5 kg"},{"n":"209034.0","name":"ARO Chicken Nuggets Frozen","cat":"Frozen - Meat","unit":"1 kg"},{"n":"339051.5","name":"MC Chicken Breast Strips Grilled","cat":"Frozen - Meat","unit":"1 kg"},{"n":"537682.7","name":"Aviko Rösti Bites Oven","cat":"Frozen - Potato Products","unit":"2500 g"},{"n":"546743.6","name":"Aviko Super Crunch Fries 9.5mm","cat":"Frozen - Potato Products","unit":"2.5 kg"},{"n":"785669.3","name":"Kölln Muesli Honey Nut","cat":"Grains & Cereals","unit":"1.7 kg"},{"n":"090225.4","name":"Müllers Mühle Quinoa","cat":"Grains & Cereals","unit":"1.8 kg"},{"n":"6602","name":"Dawn Farms Chargrilled Chicken Strips","cat":"Meat - Processed","unit":"1 kg"},{"n":"7200","name":"Dawn Farms Full Slice Bacon Cooked","cat":"Meat - Processed","unit":"1 kg"},{"n":"5291","name":"Dawn Farms Pork Carnitas","cat":"Meat - Processed","unit":"500 g"},{"n":"6953","name":"Dawn Farms Pulled Chicken","cat":"Meat - Processed","unit":"1 kg"},{"n":"B000KTO48K","name":"Mammut Crash Weight Gainer Vanilla","cat":"Nutrition & Supplements","unit":"4.5 kg"},{"n":"030675.3","name":"ARO Olive Oil","cat":"Oils & Fats","unit":"5 L"},{"n":"208622.1","name":"ARO Rapeseed Oil","cat":"Oils & Fats","unit":"10 L"},{"n":"921376.0","name":"ARO Sunflower Oil","cat":"Oils & Fats","unit":"10 L"},{"n":"219405.8","name":"Deli Reform Soft Margarine","cat":"Oils & Fats","unit":"2 kg"},{"n":"905198.0","name":"MC Extra Virgin Olive Oil","cat":"Oils & Fats","unit":"5 L"},{"n":"867307.1","name":"MC High Oleic Frying Oil","cat":"Oils & Fats","unit":"10 L"},{"n":"011429.8","name":"Optima Butter Aroma Oil","cat":"Oils & Fats","unit":"2 L"},{"n":"596093","name":"ARLA Jörd Oat Barista UHT","cat":"Plant-Based Beverage","unit":"1 L"},{"n":"527240.6","name":"BBQ Marshmallows","cat":"Snacks & Confectionery","unit":"400 g"},{"n":"127862.1","name":"Bahlsen Pick Original Crackers","cat":"Snacks & Confectionery","unit":"24 × 28g"},{"n":"337326.3","name":"Rocky Mountain Marshmallows","cat":"Snacks & Confectionery","unit":"300 g"},{"n":"154301.6","name":"ARO Table Salt","cat":"Spices & Seasonings","unit":"500 g"},{"n":"16170014D","name":"Cajun Mix","cat":"Spices & Seasonings","unit":"1 kg"},{"n":"16170073D","name":"Chips & Potato Seasoning with Salt","cat":"Spices & Seasonings","unit":"1 kg"},{"n":"16170073C","name":"Chips & Potato Seasoning with Salt (Shaker)","cat":"Spices & Seasonings","unit":"600 g"},{"n":"16170003D","name":"Dry Rub All Purpose","cat":"Spices & Seasonings","unit":"2 kg"},{"n":"16170003C","name":"Dry Rub All Purpose (Shaker)","cat":"Spices & Seasonings","unit":"600 g"},{"n":"19080225D","name":"Garlic Granules Coarse 2-3mm","cat":"Spices & Seasonings","unit":"1 kg"},{"n":"250542.8","name":"Hellma Pepper Sticks (750 pcs)","cat":"Spices & Seasonings","unit":"750 × 0.2g"},{"n":"250536.0","name":"Hellma Salt Sticks (750 pcs)","cat":"Spices & Seasonings","unit":"750 × 1g"},{"n":"20210152D","name":"Honey-Mustard BBQ Rub","cat":"Spices & Seasonings","unit":"1 kg"},{"n":"20210176D","name":"Jamaican Jerk Herbs","cat":"Spices & Seasonings","unit":"1 kg"},{"n":"16170139D","name":"Lemon Pepper","cat":"Spices & Seasonings","unit":"1 kg"},{"n":"019366.4","name":"MC Cayenne Pepper Ground","cat":"Spices & Seasonings","unit":"390 g"},{"n":"514870.5","name":"MC Ground Cumin","cat":"Spices & Seasonings","unit":"400 g"},{"n":"19080131D","name":"Onion Powder","cat":"Spices & Seasonings","unit":"800 g"},{"n":"16170077D","name":"Piri Piri Mix","cat":"Spices & Seasonings","unit":"1 kg"},{"n":"16170076D","name":"Smokey BBQ Seasoning","cat":"Spices & Seasonings","unit":"1 kg"},{"n":"16170130C","name":"Spicy Chipotle Mix (Shaker)","cat":"Spices & Seasonings","unit":"600 g"},{"n":"20210125D","name":"Taco Seasoning Mix","cat":"Spices & Seasonings","unit":"1 kg"},{"n":"16170099D","name":"Tex Mex Mix","cat":"Spices & Seasonings","unit":"1 kg"},{"n":"522896.0","name":"ARO Blossom Honey","cat":"Spreads & Honey","unit":"2.5 kg"},{"n":"108233.8","name":"Diamond Peanut Butter","cat":"Spreads & Honey","unit":"5 kg"},{"n":"675208.3","name":"Sonnland Flower Honey","cat":"Spreads & Honey","unit":"2.5 kg"},{"n":"AF-673","name":"Tahini Daabool","cat":"Spreads & Honey","unit":"4 kg"},{"n":"EL-05","name":"1000ml Paper Bowl","cat":"Supplies - Disposables","unit":"1 CTN (300 pcs)"},{"n":"EL-09","name":"1200ml Two Compartment Sugarcane Bowl","cat":"Supplies - Disposables","unit":"1 CTN (300 pcs)"},{"n":"499594.0","name":"ARO Aluminum Foil 44cm×150m","cat":"Supplies - Disposables","unit":"1 Roll"},{"n":"718787.0","name":"ARO Carrier Bags","cat":"Supplies - Disposables","unit":"500 pcs"},{"n":"295978.0","name":"ARO Napkins 33cm Cream","cat":"Supplies - Disposables","unit":"500 pcs"},{"n":"008681.0","name":"ARO Napkins 33cm White","cat":"Supplies - Disposables","unit":"500 pcs"},{"n":"295981.0","name":"ARO Napkins 33cm Yellow","cat":"Supplies - Disposables","unit":"500 pcs"},{"n":"485661.3","name":"ARO Paper Hand Towels","cat":"Supplies - Disposables","unit":"20 × 250 pcs"},{"n":"EL-03","name":"Bamboo Pulp Napkin","cat":"Supplies - Disposables","unit":"1 CTN (3000 pcs)"},{"n":"EL-02","name":"Disposable Gloves","cat":"Supplies - Disposables","unit":"1 CTN (10000 pcs)"},{"n":"EL-11","name":"Disposable Kraft Paper Bowl","cat":"Supplies - Disposables","unit":"1 CTN (300 pcs)"},{"n":"EL-01","name":"Disposable Wooden Tableware","cat":"Supplies - Disposables","unit":"1 CTN (5000 pcs)"},{"n":"499595.0","name":"MPRO Aluminum Foil 44cm×200m","cat":"Supplies - Disposables","unit":"1 Roll"},{"n":"517425.0","name":"MPRO Cling Film 44cm×300m","cat":"Supplies - Disposables","unit":"1 Roll"},{"n":"872490.0","name":"MPRO Latex Gloves Black XL","cat":"Supplies - Disposables","unit":"100 pcs"},{"n":"977602.0","name":"MPRO Nitrile Gloves Black L","cat":"Supplies - Disposables","unit":"100 pcs"},{"n":"977603.0","name":"MPRO Nitrile Gloves Black XL","cat":"Supplies - Disposables","unit":"100 pcs"},{"n":"060872.9","name":"MPRO Trash Bags 130L (50 pcs)","cat":"Supplies - Disposables","unit":"50 pcs"},{"n":"EL-07","name":"PET Cup","cat":"Supplies - Disposables","unit":"1 CTN (1000 pcs)"},{"n":"EL-08","name":"PET Cup Lid","cat":"Supplies - Disposables","unit":"1 CTN (1000 pcs)"},{"n":"EL-06","name":"PET Lid (for 1000ml)","cat":"Supplies - Disposables","unit":"1 CTN (300 pcs)"},{"n":"EL-12","name":"PET Lid (for 1300ml)","cat":"Supplies - Disposables","unit":"1 CTN (300 pcs)"},{"n":"192809.0","name":"Papstar Pure Snack Trays","cat":"Supplies - Disposables","unit":"80 pcs"},{"n":"054354.6","name":"Rioba To-Go Cups Black (50 pcs)","cat":"Supplies - Disposables","unit":"50 pcs"},{"n":"140527.3","name":"Salad Bowls 1300ml (50 pcs)","cat":"Supplies - Disposables","unit":"50 pcs"},{"n":"005545.9","name":"Trash Bags 120L Blue (50 pcs)","cat":"Supplies - Disposables","unit":"50 pcs"},{"n":"932513.5","name":"Wrapping Paper","cat":"Supplies - Disposables","unit":"10 kg"},{"n":"862666.5","name":"MPRO Deep Fryer GDF3008 8L","cat":"Supplies - Equipment","unit":"1 pc"},{"n":"080989.7","name":"MPRO Pizza Tray 30cm","cat":"Supplies - Equipment","unit":"1 pc"},{"n":"EL-04","name":"Kraft Bags","cat":"Supplies - Packaging","unit":"1 CTN (500 pcs)"}];
 
 const BASE_URL = 'https://spudz-v9.up.railway.app/lager/scan?p=';
-const selected = new Set();
+const quantities = {}; // { productNumber: qty }
+let customProducts = []; // user-added products
 let currentFormat = 'avery';
 const FORMATS = {
-  avery: { cols: 4, rows: 5, perPage: 20, name: 'AVERY L7121-25 (45×45mm, 4×5)' },
-  herma: { cols: 4, rows: 6, perPage: 24, name: 'HERMA 9642 (40×40mm, 4×6)' }
+  avery: { cols: 4, rows: 5, perPage: 20, name: 'AVERY L7121-25 (45×45mm, 4×5)', desc: '20 Labels/Seite' },
+  herma: { cols: 4, rows: 6, perPage: 24, name: 'HERMA 9642 (40×40mm, 4×6)', desc: '24 Labels/Seite' }
 };
+
+// All products (base + custom)
+function getAllProducts() { return [...PRODUCTS, ...customProducts]; }
 
 // Init categories
 const cats = [...new Set(PRODUCTS.map(p => p.cat))].sort();
@@ -129,6 +226,20 @@ function makeQR(el, url, size) {
   new QRCode(el, { text: url, width: size, height: size, colorDark: '#000', colorLight: '#fff', correctLevel: QRCode.CorrectLevel.H });
 }
 
+function getQty(n) { return quantities[n] || 0; }
+function setQty(n, q) {
+  q = Math.max(0, Math.min(99, parseInt(q) || 0));
+  if (q === 0) delete quantities[n]; else quantities[n] = q;
+  // Update card UI
+  const card = document.querySelector(`[data-pn="${CSS.escape(n)}"]`);
+  if (card) {
+    const inp = card.querySelector('.qty-input');
+    if (inp) inp.value = q;
+    card.classList.toggle('has-qty', q > 0);
+  }
+  updateCounts();
+}
+
 function renderProducts(list) {
   const grid = document.getElementById('productGrid');
   grid.innerHTML = '';
@@ -136,59 +247,84 @@ function renderProducts(list) {
   document.getElementById('emptyState').style.display = 'none';
 
   list.forEach(p => {
+    const q = getQty(p.n);
     const card = document.createElement('div');
-    card.className = 'card' + (selected.has(p.n) ? ' selected' : '');
-    card.onclick = () => toggleSelect(p.n, card);
+    card.className = 'card' + (q > 0 ? ' has-qty' : '');
+    card.setAttribute('data-pn', p.n);
+    const isCustom = p._custom ? ' <span style="color:var(--aqua);font-size:0.65rem">EIGENES</span>' : '';
     card.innerHTML = `
-      <div class="check">${selected.has(p.n) ? '✓' : ''}</div>
-      <div class="prod-cat">${p.cat}</div>
       <div class="qr-box" id="qr-${p.n.replace(/[^a-z0-9]/gi,'_')}"></div>
-      <div class="prod-name" title="${p.name}">${p.name}</div>
-      <div class="prod-info">${p.unit} | #${p.n}</div>
+      <div class="card-body">
+        <div class="prod-cat">${p.cat}${isCustom}</div>
+        <div class="prod-name" title="${p.name}">${p.name}</div>
+        <div class="prod-info">${p.unit} | #${p.n}</div>
+      </div>
+      <div class="qty-controls">
+        <button class="qty-btn minus" onclick="event.stopPropagation();setQty('${p.n}',getQty('${p.n}')-1)">−</button>
+        <input type="number" class="qty-input" value="${q}" min="0" max="99"
+          onchange="event.stopPropagation();setQty('${p.n}',this.value)"
+          onclick="event.stopPropagation();this.select()">
+        <button class="qty-btn plus" onclick="event.stopPropagation();setQty('${p.n}',getQty('${p.n}')+1)">+</button>
+      </div>
     `;
     grid.appendChild(card);
     const qrEl = card.querySelector('.qr-box');
-    makeQR(qrEl, BASE_URL + encodeURIComponent(p.n), 80);
+    makeQR(qrEl, BASE_URL + encodeURIComponent(p.n), 64);
   });
   document.getElementById('totalCount').textContent = list.length;
 }
 
-function toggleSelect(n, card) {
-  if (selected.has(n)) { selected.delete(n); card.classList.remove('selected'); card.querySelector('.check').textContent = ''; }
-  else { selected.add(n); card.classList.add('selected'); card.querySelector('.check').textContent = '✓'; }
-  updateCounts();
-}
-
 function updateCounts() {
-  const cnt = selected.size;
-  document.getElementById('selectedCount').textContent = cnt;
-  document.getElementById('countBadge').textContent = cnt + ' ausgewählt';
+  const totalLabels = Object.values(quantities).reduce((a, b) => a + b, 0);
+  const uniqueProducts = Object.keys(quantities).length;
   const fmt = FORMATS[currentFormat];
-  document.getElementById('pageCount').textContent = Math.ceil(cnt / fmt.perPage);
-  document.getElementById('btnPrint').disabled = cnt === 0;
+  const pages = Math.ceil(totalLabels / fmt.perPage);
+
+  document.getElementById('selectedCount').textContent = uniqueProducts;
+  document.getElementById('labelCount').textContent = totalLabels;
+  document.getElementById('countBadge').textContent = totalLabels + ' Labels';
+
+  // Sheet bar
+  const sheetBar = document.getElementById('sheetBar');
+  const summary = document.getElementById('orderSummary');
+  if (totalLabels > 0) {
+    sheetBar.style.display = '';
+    summary.style.display = '';
+    document.getElementById('sheetCount').textContent = pages;
+    document.getElementById('totalLabels').textContent = totalLabels;
+    document.getElementById('sheetPages').textContent = pages;
+    document.getElementById('fmtDetail').textContent = fmt.name.split('(')[0].trim() + ': ' + fmt.desc;
+    document.getElementById('summaryLabels').textContent = totalLabels;
+    document.getElementById('summaryProducts').textContent = uniqueProducts;
+    document.getElementById('summarySheets').textContent = pages;
+  } else {
+    sheetBar.style.display = 'none';
+    summary.style.display = 'none';
+  }
 }
 
-function selectAll() {
-  getFilteredProducts().forEach(p => selected.add(p.n));
+function setAllQty(q) {
+  if (q === 0) {
+    Object.keys(quantities).forEach(k => delete quantities[k]);
+  } else {
+    getFilteredProducts().forEach(p => { quantities[p.n] = q; });
+  }
   filterProducts();
 }
-function selectNone() {
-  selected.clear();
-  filterProducts();
-}
-function selectCategory() {
+
+function setCategoryQty() {
   const cat = document.getElementById('catFilter').value;
   if (!cat) { alert('Bitte erst eine Kategorie wählen!'); return; }
-  PRODUCTS.filter(p => p.cat === cat).forEach(p => selected.add(p.n));
+  getAllProducts().filter(p => p.cat === cat).forEach(p => { quantities[p.n] = (quantities[p.n] || 0) + 1; });
   filterProducts();
 }
 
 function getFilteredProducts() {
   const q = document.getElementById('search').value.toLowerCase();
   const cat = document.getElementById('catFilter').value;
-  return PRODUCTS.filter(p => {
+  return getAllProducts().filter(p => {
     if (cat && p.cat !== cat) return false;
-    if (q && !p.name.toLowerCase().includes(q) && !p.n.toLowerCase().includes(q) && !p.cat.toLowerCase().includes(q)) return false;
+    if (q && !p.name.toLowerCase().includes(q) && !p.n.toLowerCase().includes(q) && !p.cat.toLowerCase().includes(q) && !p.unit.toLowerCase().includes(q)) return false;
     return true;
   });
 }
@@ -203,48 +339,94 @@ function setFormat(fmt, btn) {
   document.querySelectorAll('.format-toggle button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('formatInfo').textContent = FORMATS[fmt].name;
+  document.getElementById('formatBadge').textContent = fmt === 'avery' ? 'AVERY L7121-25' : 'HERMA 9642';
+  document.body.classList.toggle('fmt-herma', fmt === 'herma');
   updateCounts();
 }
 
+function toggleCustomForm() {
+  const form = document.getElementById('customForm');
+  form.style.display = form.style.display === 'none' ? '' : 'none';
+  if (form.style.display !== 'none') document.getElementById('customName').focus();
+}
+
+function addCustomProduct() {
+  const name = document.getElementById('customName').value.trim();
+  if (!name) { alert('Bitte Produktname eingeben!'); return; }
+  const num = document.getElementById('customNum').value.trim() || 'C-' + Date.now().toString(36).toUpperCase();
+  const unit = document.getElementById('customUnit').value.trim() || '1 pc';
+  const qty = parseInt(document.getElementById('customQty').value) || 1;
+
+  // Check dupe
+  if (getAllProducts().find(p => p.n === num)) { alert('Artikelnummer existiert bereits!'); return; }
+
+  customProducts.push({ n: num, name: name, cat: 'Eigene Produkte', unit: unit, _custom: true });
+  quantities[num] = qty;
+
+  // Reset form
+  document.getElementById('customName').value = '';
+  document.getElementById('customNum').value = '';
+  document.getElementById('customUnit').value = '';
+  document.getElementById('customQty').value = '1';
+
+  // Update category dropdown if new
+  if (![...catSel.options].find(o => o.value === 'Eigene Produkte')) {
+    const o = document.createElement('option'); o.value = 'Eigene Produkte'; o.textContent = 'Eigene Produkte'; catSel.appendChild(o);
+  }
+
+  filterProducts();
+}
+
 function printLabels() {
-  if (selected.size === 0) return;
+  const totalLabels = Object.values(quantities).reduce((a, b) => a + b, 0);
+  if (totalLabels === 0) return;
+
   const fmt = FORMATS[currentFormat];
-  const selProds = PRODUCTS.filter(p => selected.has(p.n));
   const area = document.getElementById('printArea');
   area.innerHTML = '';
   area.style.display = 'block';
 
+  // Build label list with duplicates for quantities
+  const allLabels = [];
+  const allProds = getAllProducts();
+  Object.entries(quantities).forEach(([n, qty]) => {
+    const p = allProds.find(x => x.n === n);
+    if (p) for (let i = 0; i < qty; i++) allLabels.push(p);
+  });
+
   // Create pages
-  for (let i = 0; i < selProds.length; i += fmt.perPage) {
+  for (let i = 0; i < allLabels.length; i += fmt.perPage) {
     const page = document.createElement('div');
     page.className = 'print-page';
-    const pageProds = selProds.slice(i, i + fmt.perPage);
+    const pageLabels = allLabels.slice(i, i + fmt.perPage);
 
-    pageProds.forEach(p => {
+    pageLabels.forEach((p, j) => {
       const label = document.createElement('div');
       label.className = 'print-label';
       const shortName = p.name.length > 30 ? p.name.substring(0, 28) + '..' : p.name;
+      const uid = `pqr-${i}-${j}-${p.n.replace(/[^a-z0-9]/gi,'_')}`;
       label.innerHTML = `
-        <div class="qr-print" id="pqr-${i}-${p.n.replace(/[^a-z0-9]/gi,'_')}"></div>
+        <div class="qr-print" id="${uid}"></div>
         <div class="lbl-name">${shortName}</div>
         <div class="lbl-info">${p.unit} | #${p.n}</div>
+        <div class="lbl-units"><span>📦 Gebinde</span><span>🔢 Stück</span></div>
       `;
       page.appendChild(label);
     });
     area.appendChild(page);
 
-    // Generate QR codes for print
-    pageProds.forEach(p => {
-      const qrEl = document.getElementById('pqr-' + i + '-' + p.n.replace(/[^a-z0-9]/gi, '_'));
+    // Generate QR codes
+    pageLabels.forEach((p, j) => {
+      const uid = `pqr-${i}-${j}-${p.n.replace(/[^a-z0-9]/gi,'_')}`;
+      const qrEl = document.getElementById(uid);
       if (qrEl) makeQR(qrEl, BASE_URL + encodeURIComponent(p.n), 200);
     });
   }
 
-  // Give QR codes time to render, then print
   setTimeout(() => { window.print(); setTimeout(() => { area.style.display = 'none'; }, 500); }, 800);
 }
 
-// Initial render
+// Init
 filterProducts();
 updateCounts();
 </script>
